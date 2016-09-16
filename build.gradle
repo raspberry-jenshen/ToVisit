@@ -1,0 +1,52 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+    configuration = [
+            package          : "com.jenshen.tovosit",
+            buildToolsVersion: "24.0.0",
+            compileSdkVersion: 24,
+            minSdkVersion    : 14,
+            targetSdkVersion : 24,
+            versionCode      : 1,
+            versionName      : "0.1"
+    ]
+
+    libraries = [
+            supportVersion            : "24.2.1",
+            /* http://google.github.io/dagger/ */
+            daggerVersion             : "2.6",
+            /* https://github.com/ReactiveX/RxAndroid */
+            reactiveVersion          : "2.0.0-RC1",
+            /* https://github.com/aNNiMON/Lightweight-Stream-API */
+            streamApiVersion          : "1.1.1",
+            googleServicesApiVersion  : "9.4.0",
+            canaryLeakVersion         : "1.4-beta2",
+    ]
+
+    testingLibraries = [
+            junit          : "4.12",
+            espressoVersion: "2.2.2"
+    ]
+}
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0-rc1'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.2'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

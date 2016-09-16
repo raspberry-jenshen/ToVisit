@@ -1,0 +1,14 @@
+<resources>
+    <dimen name="offset_small3">2dp</dimen>
+    <dimen name="offset_small2">4dp</dimen>
+    <dimen name="offset_small1">8dp</dimen>
+    <dimen name="offset_normal">16dp</dimen>
+    <dimen name="offset_big1">32dp</dimen>
+    <dimen name="offset_big2">64dp</dimen>
+    <dimen name="offset_big3">128dp</dimen>
+    <dimen name="offset_big4">272dp</dimen>
+
+
+    <dimen name="bottom_sheet_height">300dp</dimen>
+    <dimen name="fab_button_offset">62dp</dimen>
+</resources>
