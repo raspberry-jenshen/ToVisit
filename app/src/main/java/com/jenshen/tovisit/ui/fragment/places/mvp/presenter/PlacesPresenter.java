@@ -1,6 +1,7 @@
 package com.jenshen.tovisit.ui.fragment.places.mvp.presenter;
 
-import com.jenshen.tovisit.api.entity.Place;
+import com.jenshen.tovisit.api.entity.NearByResponse;
+import com.jenshen.tovisit.api.entity.place.Place;
 import com.jenshen.tovisit.base.presenter.MvpLceRxPresenter;
 import com.jenshen.tovisit.interactor.PlacesInteractor;
 import com.jenshen.tovisit.ui.fragment.places.mvp.PlacesView;
@@ -19,6 +20,7 @@ public class PlacesPresenter extends MvpLceRxPresenter<List<Place>, PlacesView> 
     }
 
     public void loadPlaces(boolean pullToRefresh) {
-        subscribe(placesInteractor.getPlaces(null), pullToRefresh);
+        subscribe(placesInteractor.getPlaces(null)
+                .map(NearByResponse::getPlaces), pullToRefresh);
     }
 }

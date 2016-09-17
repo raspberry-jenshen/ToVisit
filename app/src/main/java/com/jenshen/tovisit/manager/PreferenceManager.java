@@ -25,7 +25,7 @@ public class PreferenceManager {
        return Integer.parseInt(preferences.getString(context.getString(R.string.preference_search_radius), context.getString(R.string.first_radius)));
     }
 
-    public String getApiKey() {
-        return context.getString(R.string.GOOGLE_PLACES_KEY);
+    public String getWebApiKey() {
+        return context.getString(R.string.GOOGLE_WEB_PLACES_KEY);
     }
 }

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jenshen.tovisit.R;
-import com.jenshen.tovisit.api.entity.Place;
+import com.jenshen.tovisit.api.entity.place.Place;
 import com.jenshen.tovisit.app.ToVisitApp;
 import com.jenshen.tovisit.base.view.impl.mvp.component.BaseDIMvpFragment;
 import com.jenshen.tovisit.inject.component.PlaceSubcomponent;

@@ -1,6 +1,6 @@
 package com.jenshen.tovisit.inject.component;
 
-import com.jenshen.tovisit.api.entity.Place;
+import com.jenshen.tovisit.api.entity.place.Place;
 import com.jenshen.tovisit.base.component.PresenterComponent;
 import com.jenshen.tovisit.inject.scope.FragmentScope;
 import com.jenshen.tovisit.ui.fragment.places.PlacesFragment;

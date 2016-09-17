@@ -1,11 +1,14 @@
 package com.jenshen.tovisit.manager.api;
 
 
+import android.support.annotation.Nullable;
+
 import com.jenshen.tovisit.api.Api;
-import com.jenshen.tovisit.api.entity.Place;
+import com.jenshen.tovisit.api.QueryList;
+import com.jenshen.tovisit.api.entity.NearByResponse;
 import com.jenshen.tovisit.manager.PreferenceManager;
 
-import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Observable;
 
@@ -20,7 +23,18 @@ public class ApiManager implements IApiManager {
     }
 
     @Override
-    public Observable<List<Place>> getPlaces(double latitude, double longitude, String types) {
-        return api.getPlaces(latitude + "," + latitude, preferenceManager.getRadiusForSearch(), true, types, preferenceManager.getApiKey());
+    public Observable<NearByResponse> getPlaces(double latitude, double longitude,
+                                                @Nullable Api.RankBy rankBy,
+                                                @Nullable QueryList<Api.Type> types,
+                                                @Nullable QueryList<String> names,
+                                                @Nullable String pageToken) {
+        return api.getPlaces(latitude + "," + longitude,
+                preferenceManager.getRadiusForSearch(),
+                rankBy,
+                Locale.getDefault().getDisplayLanguage(),
+                types != null? types.toString() : null,
+                names != null? names.toString() : null,
+                pageToken,
+                preferenceManager.getWebApiKey());
     }
 }

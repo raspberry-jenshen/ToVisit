@@ -29,6 +29,8 @@ ext {
             mosbyVersion            : "2.0.1",
             /* http://jakewharton.github.io/butterknife/ */
             butterKnifeVersion      : "8.4.0",
+            /*https://github.com/bumptech/glide*/
+            glideVersion      : "3.7.0",
     ]
 
     testingLibraries = [

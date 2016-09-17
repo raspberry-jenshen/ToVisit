@@ -37,7 +37,7 @@ public abstract class MvpLceRxPresenter<M, V extends MvpLceView<M>>
     private CompositeDisposable compositeDisposable;
 
     /**
-     * Unsubscribes the observer and set it to null
+     * Unsubscribes the observers and set it to null
      */
     protected void unsubscribe() {
         if (compositeDisposable != null) {
@@ -52,22 +52,28 @@ public abstract class MvpLceRxPresenter<M, V extends MvpLceView<M>>
      * @param observable    The observable to subscribe
      * @param pullToRefresh Pull to refresh?
      */
-    public void subscribe(Scheduler scheduler, Observable<M> observable, final boolean pullToRefresh) {
+    protected void subscribe(Scheduler scheduler, Observable<M> observable, final boolean pullToRefresh) {
         Observer<M> observer = new Observer<M>() {
+
+            private Disposable disposable;
+
             @Override
             public void onComplete() {
+                compositeDisposable.remove(disposable);
                 MvpLceRxPresenter.this.onComplete();
             }
 
             @Override
             public void onError(Throwable e) {
+                compositeDisposable.remove(disposable);
                 MvpLceRxPresenter.this.onError(e, pullToRefresh);
             }
 
             @Override
-            public void onSubscribe(Disposable d) {
-                compositeDisposable.add(d);
-                MvpLceRxPresenter.this.onSubscribe(d, pullToRefresh);
+            public void onSubscribe(Disposable disposable) {
+                this.disposable = disposable;
+                compositeDisposable.add(disposable);
+                MvpLceRxPresenter.this.onSubscribe(pullToRefresh);
             }
 
             @Override
@@ -87,12 +93,12 @@ public abstract class MvpLceRxPresenter<M, V extends MvpLceView<M>>
      * @param observable    The observable to subscribe
      * @param pullToRefresh Pull to refresh?
      */
-    public void subscribe(Observable<M> observable, final boolean pullToRefresh) {
+    protected void subscribe(Observable<M> observable, final boolean pullToRefresh) {
         subscribe(Schedulers.io(), observable, pullToRefresh);
     }
 
     @SuppressWarnings("ConstantConditions")
-    protected void onSubscribe(Disposable disposable, final boolean pullToRefresh) {
+    protected void onSubscribe(final boolean pullToRefresh) {
         if (isViewAttached()) {
             getView().showLoading(pullToRefresh);
         }
@@ -103,7 +109,6 @@ public abstract class MvpLceRxPresenter<M, V extends MvpLceView<M>>
         if (isViewAttached()) {
             getView().showContent();
         }
-        unsubscribe();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -111,7 +116,6 @@ public abstract class MvpLceRxPresenter<M, V extends MvpLceView<M>>
         if (isViewAttached()) {
             getView().showError(e, pullToRefresh);
         }
-        unsubscribe();
     }
 
     @SuppressWarnings("ConstantConditions")

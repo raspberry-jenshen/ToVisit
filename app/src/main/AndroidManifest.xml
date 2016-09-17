@@ -28,7 +28,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/GOOGLE_PLACES_KEY"/>
+            android:value="@string/GOOGLE_ANDROID_PLACES_KEY"/>
 
         <meta-data
             android:name="com.google.android.gms.version"

@@ -1,6 +1,6 @@
 package com.jenshen.tovisit.interactor;
 
-import com.jenshen.tovisit.api.entity.Place;
+import com.jenshen.tovisit.api.entity.NearByResponse;
 import com.jenshen.tovisit.manager.api.IApiManager;
 import com.jenshen.tovisit.manager.location.ILocationManager;
 
@@ -21,8 +21,8 @@ public class PlacesInteractor {
         this.locationManager = locationManager;
     }
     
-    public Observable<List<Place>> getPlaces(List<String> poi) {
+    public Observable<NearByResponse> getPlaces(List<String> poi) {
         //// TODO: 9/17/2016
-        return apiManager.getPlaces(locationManager.getLatitude(), locationManager.getLongitude(), "atm");
+        return apiManager.getPlaces(locationManager.getLatitude(), locationManager.getLongitude(), null, null, null, null);
     }
 }

@@ -2,7 +2,7 @@ package com.jenshen.tovisit.ui.fragment.places.mvp;
 
 
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
-import com.jenshen.tovisit.api.entity.Place;
+import com.jenshen.tovisit.api.entity.place.Place;
 
 import java.util.List;
 
