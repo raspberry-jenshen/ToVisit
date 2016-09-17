@@ -14,7 +14,7 @@
         android:layout_marginBottom="@dimen/bottom_sheet_height" />
 
     <!-- bottom content -->
-    <include layout="@layout/bottom_sheet_configure_game" />
+    <include layout="@layout/bottom_sheet_places" />
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -11,15 +11,24 @@ ext {
     ]
 
     libraries = [
-            supportVersion            : "24.2.1",
+            supportVersion          : "24.2.1",
             /* http://google.github.io/dagger/ */
-            daggerVersion             : "2.6",
+            daggerVersion           : "2.6",
             /* https://github.com/ReactiveX/RxAndroid */
-            reactiveVersion          : "2.0.0-RC1",
+            reactiveVersion         : "2.0.0-RC1",
             /* https://github.com/aNNiMON/Lightweight-Stream-API */
-            streamApiVersion          : "1.1.1",
-            googleServicesApiVersion  : "9.4.0",
-            canaryLeakVersion         : "1.4-beta2",
+            streamApiVersion        : "1.1.1",
+            /* https://developers.google.com/android/guides/setup */
+            googleServicesApiVersion: "9.4.0",
+            /* https://github.com/square/leakcanary */
+            canaryLeakVersion       : "1.4",
+            /* http://square.github.io/retrofit/ */
+            retrofitVersion         : "2.1.0",
+            okhttp3Version          : "3.3.1",
+            /* https://github.com/sockeqwe/mosby */
+            mosbyVersion            : "2.0.1",
+            /* http://jakewharton.github.io/butterknife/ */
+            butterKnifeVersion      : "8.4.0",
     ]
 
     testingLibraries = [

@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Visit to</string>
+
+    <!--dialogs-->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="warning">Warning</string>
+
+    <!--settings-->
     <string name="settings_category_search">Search settings</string>
     <string name="settings_radius">Search radius</string>
     <string name="settings">Settings</string>

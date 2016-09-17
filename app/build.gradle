@@ -8,6 +8,11 @@ def testLibs = rootProject.ext.testingLibraries;
 
 android {
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     lintOptions {
         warningsAsErrors = true;
     }
@@ -69,12 +74,14 @@ dependencies {
     compile "com.android.support:preference-v7:${libs.supportVersion}"
     compile "com.android.support:design:${libs.supportVersion}"
 
+    //google services
     compile "com.google.android.gms:play-services-maps:${libs.googleServicesApiVersion}"
     compile "com.google.android.gms:play-services-places:${libs.googleServicesApiVersion}"
 
     //reactive
     compile "io.reactivex.rxjava2:rxjava:${libs.reactiveVersion}"
     compile "io.reactivex.rxjava2:rxandroid:${libs.reactiveVersion}"
+    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0-RC2'
 
     //Dagger 2
     compile "com.google.dagger:dagger:${libs.daggerVersion}"
@@ -83,6 +90,20 @@ dependencies {
     //Canary Leak
     debugCompile "com.squareup.leakcanary:leakcanary-android:${libs.canaryLeakVersion}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libs.canaryLeakVersion}"
+
+    //Retrofit
+    compile "com.squareup.retrofit2:retrofit:${libs.retrofitVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${libs.retrofitVersion}"
+    compile "com.squareup.okhttp3:okhttp:${libs.okhttp3Version}"
+    compile "com.squareup.okhttp3:logging-interceptor:${libs.okhttp3Version}"
+
+    //mosby
+    compile "com.hannesdorfmann.mosby:mvp:${libs.mosbyVersion}"
+    compile "com.hannesdorfmann.mosby:viewstate:${libs.mosbyVersion}"
+
+    //butter knife
+    compile "com.jakewharton:butterknife:${libs.butterKnifeVersion}"
+    apt "com.jakewharton:butterknife-compiler:${libs.butterKnifeVersion}"
 
     //testing
     testCompile "junit:junit:${testLibs.junit}"

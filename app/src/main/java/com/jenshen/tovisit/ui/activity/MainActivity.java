@@ -1,11 +1,14 @@
 package com.jenshen.tovisit.ui.activity;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,10 +17,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jenshen.tovisit.R;
-
+import com.jenshen.tovisit.ui.fragment.places.PlacesFragment;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
-
+    private FloatingActionButton filter_button;
+    private FloatingActionButton search_button;
     private GoogleMap mMap;
 
     @Override
@@ -25,13 +29,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+
             MapFragment mapFragment = MapFragment.newInstance();
             mapFragment.getMapAsync(this);
-            fragmentTransaction
+            getFragmentManager().beginTransaction()
                     .replace(R.id.map_container, mapFragment)
                     .commit();
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, PlacesFragment.create())
+                    .commit();
         }
+        filter_button = (FloatingActionButton) findViewById(R.id.filter_button);
+        search_button = (FloatingActionButton) findViewById(R.id.search_button);
+        setBehavior();
     }
 
     @Override
@@ -58,6 +69,39 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+
+    /* private methods */
+
+    private void setBehavior() {
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(findViewById(R.id.bottomSheetContainer));
+        /*view.findViewById(R.id.bottomSheetPeek).setOnClickListener(v -> {
+            if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            } else if (behavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        });*/
+        // set callback for changes
+        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                /*// this part hides the button immediately and waits bottom sheet
+                // to collapse to show
+                if (BottomSheetBehavior.STATE_DRAGGING == newState) {
+                    play_button.animate().scaleX(0).scaleY(0).setDuration(300).start();
+                } else if (BottomSheetBehavior.STATE_COLLAPSED == newState) {
+                    play_button.animate().scaleX(1).scaleY(1).setDuration(300).start();
+                }*/
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                filter_button.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
+                search_button.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
+            }
+        });
     }
 
 
