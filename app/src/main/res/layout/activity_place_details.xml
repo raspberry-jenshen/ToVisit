@@ -30,70 +30,32 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/anchor_point"
-        android:background="@color/colorAccent"
-        android:fitsSystemWindows="true"
-        app:behavior_backdrop_peekHeight="@dimen/bottom_sheet_peek_height"
-        app:layout_behavior="@string/BackDropBottomSheetBehavior" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        app:anchorPoint="@dimen/anchor_point"
-        app:googleMaps_behavior_peekHeight="@dimen/bottom_sheet_peek_height"
-        app:layout_behavior="@string/BottomSheetBehaviorGoogleMapsLike">
-
-        <include
-            layout="@layout/bottom_sheet_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true" />
-    </android.support.v4.widget.NestedScrollView>
-
-    <android.support.design.widget.FloatingActionButton
+    <!-- Content View -->
+    <View
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:clickable="true"
-        android:src="@drawable/ic_search"
-        app:behavior_appBarId="@+id/merged_appBarLayout"
-        app:layout_anchor="@id/bottom_sheet"
-        app:layout_anchorGravity="top|right|end"
-        app:layout_behavior="@string/ScrollAwareFABBehavior" />
+        android:id="@+id/contentView" />
+    <include
+        layout="@layout/partial_place_details_content" />
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/merged_appBarLayout"
-        android:layout_width="match_parent"
+    <!-- Loading View -->
+    <ProgressBar
+        android:id="@+id/loadingView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:behavior_merged_appbar_anchor_point="@dimen/anchor_point"
-        app:layout_behavior="@string/MergedAppBarLayoutBehavior">
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/offset_big1"
+        android:indeterminate="true" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <!-- Error view -->
+    <TextView
+        android:id="@+id/errorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/offset_big1"
+        android:gravity="center"
+        tools:text="Something went wrong" />
 
-            <View
-                android:id="@+id/background"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="bottom"
-                android:background="@color/colorPrimary" />
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/expanded_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:navigationIcon="@drawable/ic_filter"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="@string/key_binding_default_toolbar_name" />
-        </FrameLayout>
-    </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

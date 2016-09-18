@@ -85,6 +85,7 @@ public class PlaceDetailsActivity extends BaseDIMvpActivity<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
+        place = getIntent().getExtras().getParcelable(PLACE_EXTRA_TAG);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -106,7 +107,7 @@ public class PlaceDetailsActivity extends BaseDIMvpActivity<
          * If we want to listen for states callback
          */
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorlayout);
-        View bottomSheet = coordinatorLayout.findViewById(R.id.bottom_sheet);
+        View bottomSheet = coordinatorLayout.findViewById(R.id.nestedScrollView);
         final BottomSheetBehaviorGoogleMapsLike behavior = BottomSheetBehaviorGoogleMapsLike.from(bottomSheet);
 
         AppBarLayout mergedAppBarLayout = (AppBarLayout) findViewById(R.id.merged_appBarLayout);
@@ -121,8 +122,10 @@ public class PlaceDetailsActivity extends BaseDIMvpActivity<
 
         bottomSheetTextView = (TextView) bottomSheet.findViewById(R.id.bottom_sheet_title);
         ItemPagerAdapter adapter = new ItemPagerAdapter(this, mDrawables);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
+
+        loadData(false);
     }
 
 
