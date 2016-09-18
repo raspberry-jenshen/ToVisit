@@ -26,8 +26,11 @@ public abstract class BaseMvpActivity<CV extends View, M, V extends MvpLceView<M
     @Override
     public void handleError(Throwable throwable) {
         throwable.printStackTrace();
-        String errorMessage = throwable.getMessage() != null ? throwable.getMessage() : getString(R.string.error_unknown);
-        createAlertDialog(errorMessage, null).show();
+        createAlertDialog(getErrorMessage(throwable), null).show();
+    }
+
+    protected String getErrorMessage(Throwable throwable) {
+        return throwable.getMessage() != null ? throwable.getMessage() : getString(R.string.error_unknown);
     }
 
     protected AlertDialog.Builder createAlertDialog(String message, @Nullable DoOnError doOnError) {

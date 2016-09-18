@@ -24,6 +24,15 @@ public class PlaceHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.imageView)
     protected ImageView imageView;
 
+    @BindView(R.id.isOpen_textView)
+    protected TextView isOpen_textView;
+
+    @BindView(R.id.vicinity_textView)
+    protected TextView vicinity_textView;
+
+    @BindView(R.id.rating_textView)
+    protected TextView rating_textView;
+
     public PlaceHolder(Context context, View itemView) {
         super(itemView);
         this.context = context;
@@ -32,10 +41,35 @@ public class PlaceHolder extends RecyclerView.ViewHolder {
 
     public void setInfo(Place place) {
         name_textView.setText(place.getName());
-        Glide.with(context)
-                .load(place.getIcon())
-                .asBitmap()
-                .centerCrop()
-                .into(imageView);
+        if (place.getIcon() != null) {
+            vicinity_textView.setVisibility(View.VISIBLE);
+            Glide.with(context)
+                    .load(place.getIcon())
+                    .asBitmap()
+                    .centerCrop()
+                    .into(imageView);
+        } else {
+            vicinity_textView.setVisibility(View.GONE);
+        }
+
+        if (place.getOpeningHours() != null && place.getOpeningHours().isOpenNow()) {
+            isOpen_textView.setVisibility(View.VISIBLE);
+        } else {
+            isOpen_textView.setVisibility(View.GONE);
+        }
+
+        if (place.getVicinity() != null) {
+            vicinity_textView.setVisibility(View.VISIBLE);
+            vicinity_textView.setText(place.getVicinity());
+        } else {
+            vicinity_textView.setVisibility(View.GONE);
+        }
+
+        if (place.getRating() != null) {
+            rating_textView.setVisibility(View.VISIBLE);
+            rating_textView.setText(place.getRating());
+        } else {
+            rating_textView.setVisibility(View.GONE);
+        }
     }
 }

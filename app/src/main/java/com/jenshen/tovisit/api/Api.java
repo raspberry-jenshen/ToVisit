@@ -2,6 +2,7 @@ package com.jenshen.tovisit.api;
 
 import com.google.gson.annotations.SerializedName;
 import com.jenshen.tovisit.api.entity.NearByResponse;
+import com.jenshen.tovisit.api.entity.PlaceDetailsResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -18,6 +19,11 @@ public interface Api {
                                          @Query("name") String names,
                                          @Query("pagetoken") String pageToken,
                                          @Query("key") String key);
+
+    @GET("maps/api/place/details/json?")
+    Observable<PlaceDetailsResponse> getPlace(@Query("placeid") String location,
+                                              @Query("language") String language,
+                                              @Query("key") String key);
 
     enum RankBy {
         @SerializedName("prominence")
@@ -124,5 +130,4 @@ public interface Api {
         VETERINARY_CARE,
         ZOO,
     }
-
 }

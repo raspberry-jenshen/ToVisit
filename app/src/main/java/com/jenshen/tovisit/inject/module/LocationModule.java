@@ -1,7 +1,8 @@
 package com.jenshen.tovisit.inject.module;
 
-import com.jenshen.tovisit.manager.location.ILocationManager;
-import com.jenshen.tovisit.manager.location.LocationManager;
+import android.content.Context;
+
+import com.jenshen.tovisit.manager.LocationManager;
 
 import javax.inject.Singleton;
 
@@ -13,7 +14,7 @@ public class LocationModule {
 
     @Provides
     @Singleton
-    public ILocationManager providesILocationManager() {
-        return new LocationManager();
+    public LocationManager providesILocationManager(Context context) {
+        return new LocationManager(context);
     }
 }

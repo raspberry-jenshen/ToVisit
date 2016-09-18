@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomBottomSheetBehavior">
+        <attr name="anchorPoint" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="BackdropBottomSheetBehavior_Params">
+        <attr name="behavior_backdrop_peekHeight" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="MergedAppBarLayoutBehavior_Params">
+        <attr name="behavior_merged_appbar_anchor_point" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="ScrollingAppBarLayoutBehavior_Params">
+        <attr name="behavior_scrolling_appbar_peek_height" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="ScrollAwareFABBehavior_Params">
+        <attr name="behavior_appBarId" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="GoogleMapsSheetBehavior_Params">
+        <attr name="googleMaps_behavior_hideable" format="boolean"/>
+        <attr name="googleMaps_behavior_peekHeight" format="dimension"/>
+    </declare-styleable>
+</resources>

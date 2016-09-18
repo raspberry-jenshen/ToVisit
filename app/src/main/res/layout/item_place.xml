@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/offset_small1"
@@ -11,14 +12,75 @@
     app:cardElevation="@dimen/offset_small3"
     app:contentPadding="@dimen/offset_small1">
 
-    <TextView
-        android:id="@+id/name_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="@dimen/offset_big4"
-        android:layout_height="@dimen/offset_big4"
-        android:contentDescription="@null" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="@dimen/offset_big1"
+                android:layout_height="@dimen/offset_big1"
+                android:layout_marginLeft="@dimen/offset_small1"
+                android:layout_marginRight="@dimen/offset_small1"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:id="@+id/name_textView"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:layout_height="wrap_content"
+                tools:text="Coffee, Coffee, Coffee, Coffee, Coffee, Coffee, Coffee, Coffee, Coffee, Coffee," />
+
+            <TextView
+                android:id="@+id/rating_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/offset_small1"
+                android:layout_marginRight="@dimen/offset_small1"
+                android:textSize="@dimen/textSize_large2"
+                android:textColor="?attr/colorAccent"
+                tools:text="4.6" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/vicinity_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/offset_small1"
+            android:layout_marginRight="@dimen/offset_small1"
+            android:layout_marginTop="@dimen/offset_small1"
+            tools:text="37 Bank St, Pyrmont"
+            android:layout_margin="@dimen/offset_normal"/>
+
+        <TextView
+            android:id="@+id/location_textView"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/offset_small1"
+            android:layout_marginLeft="@dimen/offset_small1"
+            android:layout_marginRight="@dimen/offset_small1"
+            android:layout_height="wrap_content"
+            tools:text="33.870775, 151.199025" />
+
+        <TextView
+            android:id="@+id/isOpen_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorAccent"
+            android:text="@string/place_is_open"
+            android:layout_marginTop="@dimen/offset_small1"
+            android:layout_marginLeft="@dimen/offset_small1"
+            android:layout_marginRight="@dimen/offset_small1" />
+
+    </LinearLayout>
+
 
 </android.support.v7.widget.CardView>

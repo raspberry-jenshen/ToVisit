@@ -1,4 +1,6 @@
 <resources>
+
+    <!-- offsets -->
     <dimen name="offset_small3">2dp</dimen>
     <dimen name="offset_small2">4dp</dimen>
     <dimen name="offset_small1">8dp</dimen>
@@ -8,7 +10,22 @@
     <dimen name="offset_big3">128dp</dimen>
     <dimen name="offset_big4">272dp</dimen>
 
+    <!-- textSizes -->
+    <dimen name="textSize_small3">10sp</dimen>
+    <dimen name="textSize_small2">12sp</dimen>
+    <dimen name="textSize_small1">13sp</dimen>
+    <dimen name="textSize_normal">15sp</dimen>
+    <dimen name="textSize_large1">20sp</dimen>
+    <dimen name="textSize_large2">25sp</dimen>
 
-    <dimen name="bottom_sheet_height">300dp</dimen>
+
+    <dimen name="map_height">300dp</dimen>
     <dimen name="fab_button_offset">62dp</dimen>
+
+
+
+
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="anchor_point">300dp</dimen>
+    <dimen name="bottom_sheet_peek_height">80dp</dimen>
 </resources>

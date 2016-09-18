@@ -12,5 +12,7 @@ import dagger.Component;
 @Component(modules = {AppModule.class, ApiModule.class, LocationModule.class})
 public interface AppComponent {
 
-    PlaceSubcomponent plus();
+    PlacesSubcomponent plusPlaces();
+
+    PlaceDetailsSubcomponent plusPlaceDetails();
 }

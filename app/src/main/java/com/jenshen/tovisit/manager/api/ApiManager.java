@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.jenshen.tovisit.api.Api;
 import com.jenshen.tovisit.api.QueryList;
 import com.jenshen.tovisit.api.entity.NearByResponse;
+import com.jenshen.tovisit.api.entity.PlaceDetailsResponse;
 import com.jenshen.tovisit.manager.PreferenceManager;
 
 import java.util.Locale;
@@ -35,6 +36,13 @@ public class ApiManager implements IApiManager {
                 types != null? types.toString() : null,
                 names != null? names.toString() : null,
                 pageToken,
+                preferenceManager.getWebApiKey());
+    }
+
+    @Override
+    public Observable<PlaceDetailsResponse> getPlace(String id) {
+        return api.getPlace(id,
+                Locale.getDefault().getDisplayLanguage(),
                 preferenceManager.getWebApiKey());
     }
 }

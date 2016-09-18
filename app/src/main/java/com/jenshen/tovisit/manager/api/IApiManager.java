@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.jenshen.tovisit.api.Api;
 import com.jenshen.tovisit.api.QueryList;
 import com.jenshen.tovisit.api.entity.NearByResponse;
+import com.jenshen.tovisit.api.entity.PlaceDetailsResponse;
 import com.jenshen.tovisit.api.entity.place.Place;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface IApiManager {
                                          @Nullable QueryList<Api.Type> types,
                                          @Nullable QueryList<String> names,
                                          @Nullable String pageToken);
+
+    Observable<PlaceDetailsResponse> getPlace(String id);
 }
