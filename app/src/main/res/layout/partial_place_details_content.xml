@@ -28,7 +28,8 @@
             android:layout_height="@dimen/offset_small1"
             android:layout_margin="@dimen/offset_small2"
             android:background="@drawable/selector_dots"
-            android:button="@null" />
+            android:button="@null"
+            android:checked="true" />
 
         <RadioButton
             android:layout_width="@dimen/offset_small1"
