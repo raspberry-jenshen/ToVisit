@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.MapFragment;
@@ -50,6 +51,8 @@ public class PlaceDetailsActivity extends BaseDIMvpActivity<
     protected AppBarLayout merged_appBarLayout;
     @BindView(R.id.viewPager)
     protected ViewPager viewPager;
+    @BindView(R.id.radioGroup)
+    protected RadioGroup radioGroup;
     @BindView(R.id.title_textView)
     protected TextView title_textView;
     @BindView(R.id.address_textView)
@@ -139,6 +142,22 @@ public class PlaceDetailsActivity extends BaseDIMvpActivity<
         //set view pager
         pagerAdapter = new ItemPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                radioGroup.check(radioGroup.getChildAt(position).getId());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         //set reviews view
         reviewsAdapter = new ReviewsAdapter(this, null);
