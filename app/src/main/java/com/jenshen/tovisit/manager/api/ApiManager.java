@@ -31,10 +31,14 @@ public class ApiManager implements IApiManager {
     public Observable<NearByResponse> getPlaces(double latitude, double longitude,
                                                 @Nullable List<String> names,
                                                 @Nullable String pageToken) {
-        final String types = Stream.of(preferenceManager.getPlaceTypes())
-                .map(PlaceType::getName)
-                .map(String::toLowerCase)
-                .collect(Collectors.joining("|"));
+        final List<PlaceType> placeTypes = preferenceManager.getPlaceTypes();
+        String types = null;
+        if (placeTypes != null) {
+            types = Stream.of(placeTypes)
+                    .map(PlaceType::getName)
+                    .map(String::toLowerCase)
+                    .collect(Collectors.joining("|"));
+        }
         return api.getPlaces(latitude + "," + longitude,
                 preferenceManager.getRadiusForSearch(),
                 preferenceManager.getRankBy().name().toLowerCase(),

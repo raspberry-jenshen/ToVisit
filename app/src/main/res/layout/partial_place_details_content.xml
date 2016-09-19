@@ -28,8 +28,7 @@
             android:layout_height="@dimen/offset_small1"
             android:layout_margin="@dimen/offset_small2"
             android:background="@drawable/selector_dots"
-            android:button="@null"
-            android:checked="true" />
+            android:button="@null" />
 
         <RadioButton
             android:layout_width="@dimen/offset_small1"
@@ -52,11 +51,12 @@
         android:fitsSystemWindows="true" />
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/share_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:src="@drawable/ic_search"
+        android:src="@drawable/ic_share"
         app:behavior_appBarId="@+id/merged_appBarLayout"
         app:layout_anchor="@id/bottomSheetView"
         app:layout_anchorGravity="top|right|end"

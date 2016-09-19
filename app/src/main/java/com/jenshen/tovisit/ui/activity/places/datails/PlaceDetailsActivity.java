@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.MapFragment;
 import com.jenshen.tovisit.R;
@@ -63,6 +65,8 @@ public class PlaceDetailsActivity extends BaseDIMvpActivity<
     protected TextView rating_textView;
     @BindView(R.id.reviews_recyclerView)
     protected RecyclerView reviews_recyclerView;
+    @BindView(R.id.share_button)
+    protected FloatingActionButton share_button;
 
     private Place place;
     private ItemPagerAdapter pagerAdapter;
@@ -142,6 +146,7 @@ public class PlaceDetailsActivity extends BaseDIMvpActivity<
         //set view pager
         pagerAdapter = new ItemPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
+        radioGroup.check(radioGroup.getChildAt(0).getId());
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -167,7 +172,7 @@ public class PlaceDetailsActivity extends BaseDIMvpActivity<
         final BottomSheetBehaviorGoogleMapsLike behavior = BottomSheetBehaviorGoogleMapsLike.from(bottomSheetView);
         mergedAppBarLayoutBehavior = MergedAppBarLayoutBehavior.from(merged_appBarLayout);
         mergedAppBarLayoutBehavior.setNavigationOnClickListener(v -> behavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED));
-
+        share_button.setOnClickListener(v -> Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show());
         loadData(false);
     }
 

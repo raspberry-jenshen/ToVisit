@@ -206,7 +206,7 @@ public class PlacesActivity extends BaseDIMvpActivity<
         ObjectAnimator animatorScaleY = ObjectAnimator.ofFloat(filter_button, View.SCALE_Y, 1, 0);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(animatorScaleX, animatorScaleY);
-        animatorSet.setDuration(300);
+        animatorSet.setDuration(100);
         animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
         animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
