@@ -8,6 +8,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -98,6 +99,16 @@ public class PlacesActivity extends BaseDIMvpActivity<
         }
 
         contentView.setOnRefreshListener(this);
+
+        filter_button.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.places_choose_filter);
+            builder.setItems(null, (dialog, item) -> {
+
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        });
 
         // Setup recycler view
         adapter = new PlacesAdapter(getContext(), this);

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.annimon.stream.function.FunctionalInterface;
 import com.jenshen.tovisit.R;
-import com.jenshen.tovisit.api.entity.place.Place;
 import com.jenshen.tovisit.api.entity.place.Review;
 import com.jenshen.tovisit.ui.adapter.holder.ReviewHolder;
 
