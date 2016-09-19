@@ -58,7 +58,8 @@ public class PlacesActivity extends BaseDIMvpActivity<
         PlacesAdapter.OnItemClickListener<Place>, EasyPermissions.PermissionCallbacks {
 
     private static final int RC_LOCATION_PERM = 123;
-    private static final int RC_SETTINGS_SCREEN = 125;
+    private static final int RC_ANDROID_SETTINGS_SCREEN = 125;
+    private static final int RC_SETTINGS_SCREEN = 126;
 
     @Inject
     protected LocationManager locationManager;
@@ -152,10 +153,18 @@ public class PlacesActivity extends BaseDIMvpActivity<
         switch (item.getItemId()) {
             case R.id.settings_item_menu:
                 Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, RC_SETTINGS_SCREEN);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_ANDROID_SETTINGS_SCREEN || requestCode == RC_SETTINGS_SCREEN) {
+            startFetchLocation();
+        }
     }
 
 
@@ -254,17 +263,9 @@ public class PlacesActivity extends BaseDIMvpActivity<
                     .setTitle(getString(R.string.title_settings_dialog))
                     .setPositiveButton(getString(R.string.settings))
                     .setNegativeButton(getString(R.string.cancel), null /* click listener */)
-                    .setRequestCode(RC_SETTINGS_SCREEN)
+                    .setRequestCode(RC_ANDROID_SETTINGS_SCREEN)
                     .build()
                     .show();
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SETTINGS_SCREEN) {
-            startFetchLocation(false);
         }
     }
 
@@ -294,6 +295,7 @@ public class PlacesActivity extends BaseDIMvpActivity<
                         }
                     }
                     presenter.setPlaceTypes(newSelectedTypes);
+                    startFetchLocation();
                 }).setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel())
                 .setNeutralButton(R.string.reset, (dialog, which) -> presenter.setPlaceTypes(null))
                 .show();
