@@ -10,14 +10,36 @@ import java.util.List;
 
 public class Photo implements Parcelable {
 
+    public static final Creator<Photo> CREATOR = new Creator<Photo>() {
+        @Override
+        public Photo createFromParcel(Parcel source) {
+            return new Photo(source);
+        }
+
+        @Override
+        public Photo[] newArray(int size) {
+            return new Photo[size];
+        }
+    };
     @SerializedName("height")
-    public Integer height;
+    private Integer height;
     @SerializedName("width")
-    public Integer width;
+    private Integer width;
     @SerializedName("html_attributions")
-    public List<Object> htmlAttributions;
+    private List<Object> htmlAttributions;
     @SerializedName("photo_reference")
-    public String photoReference;
+    private String photoReference;
+
+    public Photo() {
+    }
+
+    protected Photo(Parcel in) {
+        this.height = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.width = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.htmlAttributions = new ArrayList<Object>();
+        in.readList(this.htmlAttributions, Object.class.getClassLoader());
+        this.photoReference = in.readString();
+    }
 
     @Override
     public int describeContents() {
@@ -32,26 +54,19 @@ public class Photo implements Parcelable {
         dest.writeString(this.photoReference);
     }
 
-    public Photo() {
+    public Integer getHeight() {
+        return height;
     }
 
-    protected Photo(Parcel in) {
-        this.height = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.width = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.htmlAttributions = new ArrayList<Object>();
-        in.readList(this.htmlAttributions, Object.class.getClassLoader());
-        this.photoReference = in.readString();
+    public Integer getWidth() {
+        return width;
     }
 
-    public static final Creator<Photo> CREATOR = new Creator<Photo>() {
-        @Override
-        public Photo createFromParcel(Parcel source) {
-            return new Photo(source);
-        }
+    public List<Object> getHtmlAttributions() {
+        return htmlAttributions;
+    }
 
-        @Override
-        public Photo[] newArray(int size) {
-            return new Photo[size];
-        }
-    };
+    public String getPhotoReference() {
+        return photoReference;
+    }
 }

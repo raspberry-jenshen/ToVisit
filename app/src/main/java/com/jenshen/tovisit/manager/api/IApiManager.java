@@ -6,11 +6,9 @@ import com.jenshen.tovisit.api.Api;
 import com.jenshen.tovisit.api.QueryList;
 import com.jenshen.tovisit.api.entity.NearByResponse;
 import com.jenshen.tovisit.api.entity.PlaceDetailsResponse;
-import com.jenshen.tovisit.api.entity.place.Place;
-
-import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public interface IApiManager {
 
@@ -20,5 +18,5 @@ public interface IApiManager {
                                          @Nullable QueryList<String> names,
                                          @Nullable String pageToken);
 
-    Observable<PlaceDetailsResponse> getPlace(String id);
+    Single<PlaceDetailsResponse> getPlace(String id);
 }

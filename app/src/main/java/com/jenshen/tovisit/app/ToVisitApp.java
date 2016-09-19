@@ -10,9 +10,8 @@ import com.squareup.leakcanary.LeakCanary;
 
 public class ToVisitApp extends Application {
 
+    public static final String BASE_URL = "https://maps.googleapis.com/";
     private static ToVisitApp application;
-    private static final String BASE_URL = "https://maps.googleapis.com/";
-
     private AppComponent appComponent;
 
     public static ToVisitApp getApplication() {

@@ -12,6 +12,7 @@ import com.jenshen.tovisit.manager.PreferenceManager;
 import java.util.Locale;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class ApiManager implements IApiManager {
 
@@ -33,16 +34,15 @@ public class ApiManager implements IApiManager {
                 preferenceManager.getRadiusForSearch(),
                 rankBy,
                 Locale.getDefault().getDisplayLanguage(),
-                types != null? types.toString() : null,
-                names != null? names.toString() : null,
+                types != null ? types.toString() : null,
+                names != null ? names.toString() : null,
                 pageToken,
                 preferenceManager.getWebApiKey());
     }
 
     @Override
-    public Observable<PlaceDetailsResponse> getPlace(String id) {
-        return api.getPlace(id,
-                Locale.getDefault().getDisplayLanguage(),
-                preferenceManager.getWebApiKey());
+    public Single<PlaceDetailsResponse> getPlace(String id) {
+        return api.getPlace(id, null, preferenceManager.getWebApiKey())
+                .toSingle();
     }
 }

@@ -1,67 +1,93 @@
 package com.jenshen.tovisit.api.entity.place;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+import com.bumptech.glide.Glide;
 import com.google.gson.annotations.SerializedName;
+import com.jenshen.tovisit.app.ToVisitApp;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class Place implements Parcelable {
 
+    public static final Creator<Place> CREATOR = new Creator<Place>() {
+        @Override
+        public Place createFromParcel(Parcel source) {
+            return new Place(source);
+        }
+
+        @Override
+        public Place[] newArray(int size) {
+            return new Place[size];
+        }
+    };
     @SerializedName("geometry")
-    private Geometry geometry;
+    protected Geometry geometry;
     @SerializedName("icon")
-    private String icon;
+    protected String icon;
     @SerializedName("id")
-    private String id;
+    protected String id;
     @SerializedName("name")
-    private String name;
+    protected String name;
     @SerializedName("opening_hours")
-    private OpeningHours openingHours;
+    protected OpeningHours openingHours;
     @SerializedName("photos")
-    private List<Photo> photos;
+    protected List<Photo> photos;
     @SerializedName("place_id")
-    private String placeId;
+    protected String placeId;
     @SerializedName("scope")
-    private String scope;
+    protected String scope;
     @SerializedName("alt_ids")
-    private List<AltId> altIds;
+    protected List<AltId> altIds;
     @SerializedName("reference")
-    private String reference;
+    protected String reference;
     @SerializedName("types")
-    private List<String> types;
+    protected List<String> types;
     @SerializedName("vicinity")
-    private String vicinity;
+    protected String vicinity;
     @SerializedName("rating")
-    private String rating;
+    protected String rating;
 
     @Nullable
     private transient Bitmap bitmap;
 
-    public Place(Geometry geometry, String icon, String id, String name, OpeningHours openingHours,
-                 List<Photo> photos, String placeId, String scope, List<AltId> altIds,
-                 String reference, List<String> types, String vicinity, String rating) {
-        this.geometry = geometry;
-        this.icon = icon;
-        this.id = id;
-        this.name = name;
-        this.openingHours = openingHours;
-        this.photos = photos;
-        this.placeId = placeId;
-        this.scope = scope;
-        this.altIds = altIds;
-        this.reference = reference;
-        this.types = types;
-        this.vicinity = vicinity;
-        this.rating = rating;
+    private transient List<String> photoUrl;
+
+    public Place() {
     }
 
-    public void setBitmap(@Nullable Bitmap bitmap) {
-        this.bitmap = bitmap;
+    protected Place(Parcel in) {
+        this.geometry = in.readParcelable(Geometry.class.getClassLoader());
+        this.icon = in.readString();
+        this.id = in.readString();
+        this.name = in.readString();
+        this.openingHours = in.readParcelable(OpeningHours.class.getClassLoader());
+        this.photos = in.createTypedArrayList(Photo.CREATOR);
+        this.placeId = in.readString();
+        this.scope = in.readString();
+        this.altIds = new ArrayList<AltId>();
+        in.readList(this.altIds, AltId.class.getClassLoader());
+        this.reference = in.readString();
+        this.types = in.createStringArrayList();
+        this.vicinity = in.readString();
+        this.rating = in.readString();
+    }
+
+    public String getVicinity() {
+        return vicinity;
+    }
+
+    public List<String> getPhotoUrl() {
+        return photoUrl;
     }
 
     @Nullable
@@ -96,6 +122,7 @@ public class Place implements Parcelable {
         return openingHours;
     }
 
+    @Nullable
     public List<Photo> getPhotos() {
         return photos;
     }
@@ -120,9 +147,27 @@ public class Place implements Parcelable {
         return types;
     }
 
-    @Nullable
-    public String getVicinity() {
-        return vicinity;
+    public void bindPhotosUrl(final int maxwidth, String apiKey) {
+        List<Photo> photos = getPhotos();
+        if (photos == null) {
+            this.photos = Collections.emptyList();
+        } else {
+            this.photoUrl = Stream.of(photos).map(photo -> ToVisitApp.BASE_URL
+                    + "maps/api/place/photo?maxwidth=" + String.valueOf(maxwidth)
+                    + "&photoreference=" + photo.getPhotoReference()
+                    + "&key=" + apiKey).collect(Collectors.toList());
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public void bindBitmap(Context context) {
+        if (getIcon() != null) {
+            try {
+                bitmap = Glide.with(context).load(getIcon()).asBitmap().into(-1, -1).get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -137,7 +182,7 @@ public class Place implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeParcelable(this.openingHours, flags);
-        dest.writeList(this.photos);
+        dest.writeTypedList(this.photos);
         dest.writeString(this.placeId);
         dest.writeString(this.scope);
         dest.writeList(this.altIds);
@@ -146,34 +191,4 @@ public class Place implements Parcelable {
         dest.writeString(this.vicinity);
         dest.writeString(this.rating);
     }
-
-    protected Place(Parcel in) {
-        this.geometry = in.readParcelable(Geometry.class.getClassLoader());
-        this.icon = in.readString();
-        this.id = in.readString();
-        this.name = in.readString();
-        this.openingHours = in.readParcelable(OpeningHours.class.getClassLoader());
-        this.photos = new ArrayList<Photo>();
-        in.readList(this.photos, Photo.class.getClassLoader());
-        this.placeId = in.readString();
-        this.scope = in.readString();
-        this.altIds = new ArrayList<AltId>();
-        in.readList(this.altIds, AltId.class.getClassLoader());
-        this.reference = in.readString();
-        this.types = in.createStringArrayList();
-        this.vicinity = in.readString();
-        this.rating = in.readString();
-    }
-
-    public static final Creator<Place> CREATOR = new Creator<Place>() {
-        @Override
-        public Place createFromParcel(Parcel source) {
-            return new Place(source);
-        }
-
-        @Override
-        public Place[] newArray(int size) {
-            return new Place[size];
-        }
-    };
 }

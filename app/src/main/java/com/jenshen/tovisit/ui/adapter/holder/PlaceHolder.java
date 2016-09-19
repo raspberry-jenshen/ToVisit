@@ -42,14 +42,14 @@ public class PlaceHolder extends RecyclerView.ViewHolder {
     public void setInfo(Place place) {
         name_textView.setText(place.getName());
         if (place.getIcon() != null) {
-            vicinity_textView.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(place.getIcon())
                     .asBitmap()
                     .centerCrop()
                     .into(imageView);
         } else {
-            vicinity_textView.setVisibility(View.GONE);
+            imageView.setVisibility(View.GONE);
         }
 
         if (place.getOpeningHours() != null && place.getOpeningHours().isOpenNow()) {

@@ -14,20 +14,10 @@
         app:behavior_backdrop_peekHeight="@dimen/bottom_sheet_peek_height"
         app:layout_behavior="@string/BackDropBottomSheetBehavior" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        app:anchorPoint="@dimen/anchor_point"
-        app:googleMaps_behavior_peekHeight="@dimen/bottom_sheet_peek_height"
-        app:layout_behavior="@string/BottomSheetBehaviorGoogleMapsLike">
 
-        <include
-            layout="@layout/bottom_sheet_content"
-            android:fitsSystemWindows="true" />
-    </android.support.v4.widget.NestedScrollView>
+    <include
+        layout="@layout/bottom_sheet_content"
+        android:fitsSystemWindows="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -36,7 +26,7 @@
         android:clickable="true"
         android:src="@drawable/ic_search"
         app:behavior_appBarId="@+id/merged_appBarLayout"
-        app:layout_anchor="@id/nestedScrollView"
+        app:layout_anchor="@id/bottomSheetView"
         app:layout_anchorGravity="top|right|end"
         app:layout_behavior="@string/ScrollAwareFABBehavior" />
 

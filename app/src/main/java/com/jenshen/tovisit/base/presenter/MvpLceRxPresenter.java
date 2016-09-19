@@ -113,6 +113,7 @@ public abstract class MvpLceRxPresenter<M, V extends MvpLceView<M>>
 
     @SuppressWarnings("ConstantConditions")
     protected void onError(Throwable e, boolean pullToRefresh) {
+        e.printStackTrace();
         if (isViewAttached()) {
             getView().showError(e, pullToRefresh);
         }

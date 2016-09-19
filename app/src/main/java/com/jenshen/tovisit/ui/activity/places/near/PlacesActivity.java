@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.maps.MapFragment;
 import com.jenshen.tovisit.R;
@@ -58,6 +60,8 @@ public class PlacesActivity extends BaseDIMvpActivity<
     protected Toolbar toolbar;
     @BindView(R.id.collapsing_toolbar)
     protected CollapsingToolbarLayout collapsing_toolbar;
+    @BindView(R.id.map_container)
+    protected View map_container;
 
     private PlacesAdapter adapter;
 
@@ -82,6 +86,7 @@ public class PlacesActivity extends BaseDIMvpActivity<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_places);
         ButterKnife.bind(this);
+        ViewCompat.setTransitionName(map_container, PlaceDetailsActivity.TRANSITION_KEY_MAP);
         setSupportActionBar(toolbar);
         collapsing_toolbar.setTitle(getString(R.string.app_name));
         if (savedInstanceState == null) {
@@ -153,7 +158,7 @@ public class PlacesActivity extends BaseDIMvpActivity<
 
     @Override
     public void onItemClick(@NonNull Place item) {
-         PlaceDetailsActivity.launch(item, this);
+         PlaceDetailsActivity.launch(item, map_container, this);
     }
 
 

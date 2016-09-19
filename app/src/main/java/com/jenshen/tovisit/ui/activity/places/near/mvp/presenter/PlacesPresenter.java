@@ -1,13 +1,12 @@
 package com.jenshen.tovisit.ui.activity.places.near.mvp.presenter;
 
 
-import android.graphics.Bitmap;
 import android.location.Location;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,7 +24,6 @@ import com.jenshen.tovisit.manager.LocationManager;
 import com.jenshen.tovisit.ui.activity.places.near.mvp.PlacesView;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
@@ -89,7 +87,10 @@ public class PlacesPresenter extends MvpLceRxPresenter<List<Place>, PlacesView> 
         subscribe(placesInteractor.getPlaces(null, location), pullToRefresh);
     }
 
-    private void setMarkers(GoogleMap googleMap, List<Place> data) {
+    private void setMarkers(@NonNull GoogleMap googleMap, @NonNull List<Place> data) {
+        if (data.isEmpty()) {
+            return;
+        }
         final List<Marker> markers = Stream.of(data)
                 .filter(place -> place.getGeometry() != null)
                 .map(place -> {

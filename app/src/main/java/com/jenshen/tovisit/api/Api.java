@@ -22,8 +22,8 @@ public interface Api {
 
     @GET("maps/api/place/details/json?")
     Observable<PlaceDetailsResponse> getPlace(@Query("placeid") String location,
-                                              @Query("language") String language,
-                                              @Query("key") String key);
+                                          @Query("language") String language,
+                                          @Query("key") String key);
 
     enum RankBy {
         @SerializedName("prominence")
