@@ -1,9 +1,14 @@
 package com.jenshen.tovisit.ui.activity.places.near;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
@@ -14,10 +19,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.google.android.gms.maps.MapFragment;
 import com.jenshen.tovisit.R;
 import com.jenshen.tovisit.api.entity.place.Place;
+import com.jenshen.tovisit.api.model.PlaceType;
 import com.jenshen.tovisit.app.ToVisitApp;
 import com.jenshen.tovisit.base.view.impl.mvp.component.BaseDIMvpActivity;
 import com.jenshen.tovisit.inject.component.PlacesSubcomponent;
@@ -28,6 +37,7 @@ import com.jenshen.tovisit.ui.activity.places.near.mvp.PlacesView;
 import com.jenshen.tovisit.ui.activity.places.near.mvp.presenter.PlacesPresenter;
 import com.jenshen.tovisit.ui.adapter.PlacesAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,7 +55,7 @@ public class PlacesActivity extends BaseDIMvpActivity<
         PlacesView,
         PlacesPresenter>
         implements PlacesView, SwipeRefreshLayout.OnRefreshListener,
-        PlacesAdapter.OnItemClickListener<Place>, EasyPermissions.PermissionCallbacks  {
+        PlacesAdapter.OnItemClickListener<Place>, EasyPermissions.PermissionCallbacks {
 
     private static final int RC_LOCATION_PERM = 123;
     private static final int RC_SETTINGS_SCREEN = 125;
@@ -100,21 +110,35 @@ public class PlacesActivity extends BaseDIMvpActivity<
 
         contentView.setOnRefreshListener(this);
 
-        filter_button.setOnClickListener(v -> {
+        //todo implement sort
+        /*sorted_button.setOnClickListener(v -> {
+            final RankBy[] values = RankBy.values();
+            final List<String> stringList = Stream.of(values)
+                    .map(value -> value.getName(this))
+                    .collect(Collectors.toList());
+            String[] array = stringList.toArray(new String[stringList.size()]);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.places_choose_filter);
-            builder.setItems(null, (dialog, item) -> {
-
-            });
+            builder.setItems(array, (dialog, item) -> presenter.setRankBy(values[item]));
             AlertDialog alert = builder.create();
             alert.show();
-        });
+        });*/
+
+        filter_button.setOnClickListener(v -> showSelectPlaceTypesDialog(presenter.getSelectedTypes()));
 
         // Setup recycler view
         adapter = new PlacesAdapter(getContext(), this);
         recyclerView.setAdapter(adapter);
 
         startFetchLocation();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (filter_button.getVisibility() == View.GONE) {
+            filter_button.show();
+        }
     }
 
     @Override
@@ -169,7 +193,20 @@ public class PlacesActivity extends BaseDIMvpActivity<
 
     @Override
     public void onItemClick(@NonNull Place item) {
-         PlaceDetailsActivity.launch(item, map_container, this);
+        ObjectAnimator animatorScaleX = ObjectAnimator.ofFloat(filter_button, View.SCALE_X, 1, 0);
+        ObjectAnimator animatorScaleY = ObjectAnimator.ofFloat(filter_button, View.SCALE_Y, 1, 0);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(animatorScaleX, animatorScaleY);
+        animatorSet.setDuration(300);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                filter_button.setVisibility(View.GONE);
+                PlaceDetailsActivity.launch(item, map_container, PlacesActivity.this);
+            }
+        });
+        animatorSet.start();
     }
 
 
@@ -181,7 +218,7 @@ public class PlacesActivity extends BaseDIMvpActivity<
     }
 
     public void startFetchLocation(boolean pullToRefresh) {
-        String[] perms = { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION };
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
         if (EasyPermissions.hasPermissions(this, perms)) {
             // Have permissions, do the thing!
             presenter.onHasLocationPermission(pullToRefresh);
@@ -230,4 +267,36 @@ public class PlacesActivity extends BaseDIMvpActivity<
             startFetchLocation(false);
         }
     }
+
+
+    /* private methods */
+
+    private void showSelectPlaceTypesDialog(@Nullable List<PlaceType> selectedTypes) {
+        final PlaceType[] values = PlaceType.values();
+        final List<String> typesList = Stream.of(values).map(PlaceType::getName).collect(Collectors.toList());
+        String[] types = typesList.toArray(new String[typesList.size()]);
+        boolean[] checkedTypes = new boolean[values.length];
+        for (int i = 0; i < values.length; i++) {
+            checkedTypes[i] = selectedTypes != null && selectedTypes.contains(values[i]);
+        }
+
+        new AlertDialog.Builder(PlacesActivity.this)
+                .setMultiChoiceItems(types, checkedTypes,
+                        (dialog, which, isChecked) -> checkedTypes[which] = isChecked)
+                .setCancelable(false)
+                .setTitle(R.string.places_choose_filter)
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    List<PlaceType> newSelectedTypes = new ArrayList<>();
+                    for (int i = 0; i < values.length; i++) {
+                        boolean checked = checkedTypes[i];
+                        if (checked) {
+                            newSelectedTypes.add(values[i]);
+                        }
+                    }
+                    presenter.setPlaceTypes(newSelectedTypes);
+                }).setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel())
+                .setNeutralButton(R.string.reset, (dialog, which) -> presenter.setPlaceTypes(null))
+                .show();
+    }
+
 }

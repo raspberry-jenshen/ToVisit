@@ -26,9 +26,8 @@ public class PlacesInteractor {
         this.context = context;
     }
     
-    public Observable<List<Place>> getPlaces(List<String> poi, Location location) {
-        //// TODO: 9/17/2016
-        return apiManager.getPlaces(location.getLatitude(), location.getLongitude(), null, null, null, null)
+    public Observable<List<Place>> getPlaces(Location location) {
+        return apiManager.getPlaces(location.getLatitude(), location.getLongitude(), null, null)
                 .map(NearByResponse::getPlaces)
                 .observeOn(Schedulers.computation())
                 .flatMap(Observable::fromIterable)

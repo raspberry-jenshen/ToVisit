@@ -1,6 +1,7 @@
 package com.jenshen.tovisit.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +28,9 @@ public class ItemPagerAdapter extends PagerAdapter {
         this.layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setItems(List<String> items) {
+    public void setItems(@Nullable List<String> items) {
         this.items = items;
-        if (items.isEmpty()) {
+        if (items != null && items.isEmpty()) {
             this.items = Collections.singletonList(EMPTY_PHOTO);
         }
         notifyDataSetChanged();

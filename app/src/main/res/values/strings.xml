@@ -6,6 +6,7 @@
     <string name="cancel">Cancel</string>
     <string name="error_unknown">Something went wrong =(</string>
     <string name="warning">Warning</string>
+    <string name="reset">Reset</string>
 
     <!--settings-->
     <string name="settings_category_search">Search settings</string>
@@ -26,6 +27,8 @@
 
     <!--preference-->
     <string name="preference_search_radius" translatable="false">search radius</string>
+    <string name="preference_rank_by" translatable="false">rank by</string>
+    <string name="preference_places_types" translatable="false">rank by</string>
     <string-array name="radius_values">
         <item>@string/first_radius</item>
         <item>@string/second_radius</item>
@@ -45,6 +48,12 @@
     <string name="places.place_is_open">Open</string>
     <string name="places.go_to_user_profile">Go to user profile</string>
     <string name="places.choose.filter">Choose filter</string>
+    <!-- rank by-->
+    <string name="prominence">Prominence</string>
+    <string name="distance">Distance</string>
+    <string name="keyword">Keyword</string>
+    <string name="name">Name</string>
+    <string name="type">Type</string>
 
     <!--permissions location-->
     <string name="rationale_location">This app needs access to your place Location to know where you are.</string>

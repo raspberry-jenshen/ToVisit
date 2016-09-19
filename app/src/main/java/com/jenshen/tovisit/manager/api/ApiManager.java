@@ -3,12 +3,15 @@ package com.jenshen.tovisit.manager.api;
 
 import android.support.annotation.Nullable;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.jenshen.tovisit.api.Api;
-import com.jenshen.tovisit.api.QueryList;
 import com.jenshen.tovisit.api.entity.NearByResponse;
 import com.jenshen.tovisit.api.entity.PlaceDetailsResponse;
+import com.jenshen.tovisit.api.model.PlaceType;
 import com.jenshen.tovisit.manager.PreferenceManager;
 
+import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Observable;
@@ -26,15 +29,17 @@ public class ApiManager implements IApiManager {
 
     @Override
     public Observable<NearByResponse> getPlaces(double latitude, double longitude,
-                                                @Nullable Api.RankBy rankBy,
-                                                @Nullable QueryList<Api.Type> types,
-                                                @Nullable QueryList<String> names,
+                                                @Nullable List<String> names,
                                                 @Nullable String pageToken) {
+        final String types = Stream.of(preferenceManager.getPlaceTypes())
+                .map(PlaceType::getName)
+                .map(String::toLowerCase)
+                .collect(Collectors.joining("|"));
         return api.getPlaces(latitude + "," + longitude,
                 preferenceManager.getRadiusForSearch(),
-                rankBy,
+                preferenceManager.getRankBy().name().toLowerCase(),
                 Locale.getDefault().getDisplayLanguage(),
-                types != null ? types.toString() : null,
+                types,
                 names != null ? names.toString() : null,
                 pageToken,
                 preferenceManager.getWebApiKey());

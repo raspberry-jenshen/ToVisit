@@ -18,9 +18,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jenshen.tovisit.api.entity.place.Place;
 import com.jenshen.tovisit.api.entity.place.PlaceLocation;
+import com.jenshen.tovisit.api.model.RankBy;
+import com.jenshen.tovisit.api.model.PlaceType;
 import com.jenshen.tovisit.base.presenter.MvpLceRxPresenter;
 import com.jenshen.tovisit.interactor.PlacesInteractor;
 import com.jenshen.tovisit.manager.LocationManager;
+import com.jenshen.tovisit.manager.PreferenceManager;
 import com.jenshen.tovisit.ui.activity.places.near.mvp.PlacesView;
 
 import java.util.List;
@@ -29,6 +32,7 @@ import javax.inject.Inject;
 
 public class PlacesPresenter extends MvpLceRxPresenter<List<Place>, PlacesView> implements OnMapReadyCallback {
 
+    private final PreferenceManager preferenceManager;
     private final PlacesInteractor placesInteractor;
     private final LocationManager locationManager;
     @Nullable
@@ -37,7 +41,8 @@ public class PlacesPresenter extends MvpLceRxPresenter<List<Place>, PlacesView> 
     private List<Place> data;
 
     @Inject
-    public PlacesPresenter(PlacesInteractor placesInteractor, LocationManager locationManager) {
+    public PlacesPresenter(PreferenceManager preferenceManager, PlacesInteractor placesInteractor, LocationManager locationManager) {
+        this.preferenceManager = preferenceManager;
         this.placesInteractor = placesInteractor;
         this.locationManager = locationManager;
     }
@@ -57,6 +62,19 @@ public class PlacesPresenter extends MvpLceRxPresenter<List<Place>, PlacesView> 
     public void onHasLocationPermission(boolean pullToRefresh) {
         locationManager.searchLocation();
         locationManager.setOnLocationReceived(location -> loadPlaces(location, pullToRefresh));
+    }
+
+    public void setRankBy(RankBy item) {
+        preferenceManager.setRankBy(item);
+    }
+
+    public void setPlaceTypes(@Nullable List<PlaceType> types) {
+        preferenceManager.setPlaceTypes(types);
+    }
+
+    @Nullable
+    public List<PlaceType> getSelectedTypes() {
+        return preferenceManager.getPlaceTypes();
     }
 
 
@@ -84,7 +102,7 @@ public class PlacesPresenter extends MvpLceRxPresenter<List<Place>, PlacesView> 
     /* private methods */
 
     private void loadPlaces(Location location, boolean pullToRefresh) {
-        subscribe(placesInteractor.getPlaces(null, location), pullToRefresh);
+        subscribe(placesInteractor.getPlaces(location), pullToRefresh);
     }
 
     private void setMarkers(@NonNull GoogleMap googleMap, @NonNull List<Place> data) {
