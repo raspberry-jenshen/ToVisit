@@ -22,7 +22,7 @@
         android:theme="@style/AppThemeBase">
         <activity
             android:name=".ui.activity.places.near.PlacesActivity"
-            android:theme="@style/AppThemeBase.AppTheme.NoActionBar">
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +37,7 @@
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:label="@string/settings"
-            android:theme="@style/AppThemeBase.AppTheme.NoActionBar" />
+            android:theme="@style/NoActionBar" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
