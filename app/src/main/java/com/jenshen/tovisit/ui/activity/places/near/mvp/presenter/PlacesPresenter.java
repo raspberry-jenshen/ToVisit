@@ -21,7 +21,6 @@ import com.jenshen.tovisit.api.model.PlaceType;
 import com.jenshen.tovisit.api.model.RankBy;
 import com.jenshen.tovisit.base.presenter.MvpLceRxPresenter;
 import com.jenshen.tovisit.interactor.PlacesInteractor;
-import com.jenshen.tovisit.manager.LocationManager;
 import com.jenshen.tovisit.manager.PreferenceManager;
 import com.jenshen.tovisit.ui.activity.places.near.mvp.PlacesView;
 
@@ -40,34 +39,22 @@ public class PlacesPresenter extends MvpLceRxPresenter<List<Place>, PlacesView> 
 
     private final PreferenceManager preferenceManager;
     private final PlacesInteractor placesInteractor;
-    private final LocationManager locationManager;
     @Nullable
     private GoogleMap map;
     @Nullable
     private List<Place> data;
 
     @Inject
-    public PlacesPresenter(PreferenceManager preferenceManager, PlacesInteractor placesInteractor, LocationManager locationManager) {
+    public PlacesPresenter(PreferenceManager preferenceManager, PlacesInteractor placesInteractor) {
         this.preferenceManager = preferenceManager;
         this.placesInteractor = placesInteractor;
-        this.locationManager = locationManager;
-    }
-
-    /* lifecycle */
-
-    @Override
-    public void detachView(boolean retainInstance) {
-        super.detachView(retainInstance);
-        locationManager.setOnLocationReceived(null);
     }
 
 
     /* public methods */
 
-    @SuppressWarnings("MissingPermission")
-    public void onHasLocationPermission(boolean pullToRefresh) {
-        locationManager.searchLocation();
-        locationManager.setOnLocationReceived(location -> loadPlaces(location, pullToRefresh));
+    public void loadPlaces(Location location, boolean pullToRefresh) {
+        subscribeOnModel(placesInteractor.getPlaces(location), pullToRefresh);
     }
 
     public void setRankBy(RankBy item) {
@@ -106,10 +93,6 @@ public class PlacesPresenter extends MvpLceRxPresenter<List<Place>, PlacesView> 
 
 
     /* private methods */
-
-    private void loadPlaces(Location location, boolean pullToRefresh) {
-        subscribeOnModel(placesInteractor.getPlaces(location), pullToRefresh);
-    }
 
     @SuppressWarnings("ConstantConditions")
     private void setMarkers(@NonNull GoogleMap googleMap, @NonNull List<Place> data) {

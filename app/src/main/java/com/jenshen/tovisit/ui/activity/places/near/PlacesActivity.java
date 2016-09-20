@@ -7,6 +7,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -30,7 +31,7 @@ import com.jenshen.tovisit.api.model.PlaceType;
 import com.jenshen.tovisit.app.ToVisitApp;
 import com.jenshen.tovisit.base.view.impl.mvp.component.BaseDIMvpActivity;
 import com.jenshen.tovisit.inject.component.PlacesSubcomponent;
-import com.jenshen.tovisit.manager.LocationManager;
+import com.jenshen.tovisit.manager.LocationHelper;
 import com.jenshen.tovisit.ui.activity.SettingsActivity;
 import com.jenshen.tovisit.ui.activity.places.datails.PlaceDetailsActivity;
 import com.jenshen.tovisit.ui.activity.places.near.mvp.PlacesView;
@@ -44,6 +45,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.Lazy;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -62,7 +64,7 @@ public class PlacesActivity extends BaseDIMvpActivity<
     private static final int RC_SETTINGS_SCREEN = 126;
 
     @Inject
-    protected LocationManager locationManager;
+    protected Lazy<LocationHelper> locationHelper;
 
     @BindView(R.id.recyclerView)
     protected RecyclerView recyclerView;
@@ -140,6 +142,12 @@ public class PlacesActivity extends BaseDIMvpActivity<
         if (filter_button.getVisibility() == View.GONE) {
             filter_button.show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        locationHelper.get().setOnLocationReceived(null);
     }
 
     @Override
@@ -230,7 +238,7 @@ public class PlacesActivity extends BaseDIMvpActivity<
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
         if (EasyPermissions.hasPermissions(this, perms)) {
             // Have permissions, do the thing!
-            presenter.onHasLocationPermission(pullToRefresh);
+            onHasLocationPermission(pullToRefresh);
         } else {
             if (pullToRefresh) {
                 contentView.setRefreshing(false);
@@ -252,7 +260,7 @@ public class PlacesActivity extends BaseDIMvpActivity<
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         // Have permissions, do the thing!
-        presenter.onHasLocationPermission(false);
+        onHasLocationPermission(false);
     }
 
     @Override
@@ -271,6 +279,26 @@ public class PlacesActivity extends BaseDIMvpActivity<
 
 
     /* private methods */
+
+    private void onHasLocationPermission(boolean pullToRefresh) {
+        locationHelper.get().loadLocation();
+        if (locationHelper.get().canGetLocation()) {
+            locationHelper.get().setOnLocationReceived(location -> presenter.loadPlaces(location, pullToRefresh));
+        } else {
+            showSettingsAlert();
+        }
+    }
+
+    public void showSettingsAlert() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.places_gpssettings)
+                .setMessage(R.string.places_gpssettings_message)
+                .setPositiveButton(R.string.settings, (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                })
+                .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel()).show();
+    }
 
     private void showSelectPlaceTypesDialog(@Nullable List<PlaceType> selectedTypes) {
         final PlaceType[] values = PlaceType.values();

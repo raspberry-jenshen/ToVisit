@@ -48,6 +48,9 @@
     <string name="places.place_is_open">Open</string>
     <string name="places.go_to_user_profile">Go to user profile</string>
     <string name="places.choose.filter">Choose filter</string>
+    <string name="places.gpssettings">GPS is settings</string>
+    <string name="places.gpssettings.message">GPS is not enabled. Do you want to go to settings menu?</string>
+
     <!-- rank by-->
     <string name="prominence">Prominence</string>
     <string name="distance">Distance</string>
