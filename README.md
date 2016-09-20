@@ -7,7 +7,7 @@ Dependency Injection, Clean Architecture + MVP
 RxJava 2.0, Retrofit 2.0, Dagger 2, Mosby, Google Services (Maps, Places) etc.
 
 ##Apk:
-https://drive.google.com/open?id=0B47Mboihe7zcTVBtdy1qRUpsSVU
+https://drive.google.com/open?id=0B47Mboihe7zcZ0pEZ0FpcXQyZ1E
 
 ##Screenshots: 
 ![1 Screenshot](https://pp.vk.me/c637128/v637128222/e791/PBCw7q3dO6I.jpg)
