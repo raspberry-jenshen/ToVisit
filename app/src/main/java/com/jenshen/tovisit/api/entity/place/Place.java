@@ -1,21 +1,17 @@
 package com.jenshen.tovisit.api.entity.place;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.bumptech.glide.Glide;
 import com.google.gson.annotations.SerializedName;
 import com.jenshen.tovisit.app.ToVisitApp;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class Place implements Parcelable {
 
@@ -57,9 +53,6 @@ public class Place implements Parcelable {
     @SerializedName("rating")
     protected String rating;
 
-    @Nullable
-    private transient Bitmap bitmap;
-
     private transient List<String> photoUrl;
 
     public Place() {
@@ -88,11 +81,6 @@ public class Place implements Parcelable {
 
     public List<String> getPhotoUrl() {
         return photoUrl;
-    }
-
-    @Nullable
-    public Bitmap getBitmap() {
-        return bitmap;
     }
 
     @Nullable
@@ -156,17 +144,6 @@ public class Place implements Parcelable {
                     + "maps/api/place/photo?maxwidth=" + String.valueOf(maxwidth)
                     + "&photoreference=" + photo.getPhotoReference()
                     + "&key=" + apiKey).collect(Collectors.toList());
-        }
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    public void bindBitmap(Context context) {
-        if (getIcon() != null) {
-            try {
-                bitmap = Glide.with(context).load(getIcon()).asBitmap().into(-1, -1).get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
         }
     }
 

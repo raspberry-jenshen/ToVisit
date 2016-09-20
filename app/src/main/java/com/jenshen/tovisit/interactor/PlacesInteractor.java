@@ -1,7 +1,6 @@
 package com.jenshen.tovisit.interactor;
 
 
-import android.content.Context;
 import android.location.Location;
 
 import com.jenshen.tovisit.api.entity.NearByResponse;
@@ -18,12 +17,10 @@ import io.reactivex.schedulers.Schedulers;
 public class PlacesInteractor {
 
     private final IApiManager apiManager;
-    private final Context context;
 
     @Inject
-    public PlacesInteractor(IApiManager apiManager, Context context) {
+    public PlacesInteractor(IApiManager apiManager) {
         this.apiManager = apiManager;
-        this.context = context;
     }
     
     public Observable<List<Place>> getPlaces(Location location) {
@@ -31,7 +28,6 @@ public class PlacesInteractor {
                 .map(NearByResponse::getPlaces)
                 .observeOn(Schedulers.computation())
                 .flatMap(Observable::fromIterable)
-                .doOnNext(place -> place.bindBitmap(context))
                 .toList();
     }
 }

@@ -35,7 +35,6 @@ public class PlaceDetailsInteractor {
         display.getSize(size);
         return apiManager.getPlace(id)
                 .map(PlaceDetailsResponse::getPlace)
-                .doOnSuccess(placeDetails -> placeDetails.bindPhotosUrl(size.x, preferenceManager.getWebApiKey()))
-                .doOnSuccess(place -> place.bindBitmap(context));
+                .doOnSuccess(placeDetails -> placeDetails.bindPhotosUrl(size.x, preferenceManager.getWebApiKey()));
     }
 }

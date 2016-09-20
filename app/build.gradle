@@ -53,8 +53,8 @@ android {
             resValue "string", "GOOGLE_WEB_PLACES_KEY", GOOGLE_WEB_PLACES_KEY_DEBUG
         }
         release {
-            resValue "string", "GOOGLE_ANDROID_PLACES_KEY", GOOGLE_ANDROID_PLACES_KEY_REALISE
-            resValue "string", "GOOGLE_WEB_PLACES_KEY", GOOGLE_WEB_PLACES_KEY_REALISE
+            resValue "string", "GOOGLE_ANDROID_PLACES_KEY", GOOGLE_ANDROID_PLACES_KEY_RELEASE
+            resValue "string", "GOOGLE_WEB_PLACES_KEY", GOOGLE_WEB_PLACES_KEY_RELEASE
             debuggable true
             signingConfig signingConfigs.release
             minifyEnabled false
