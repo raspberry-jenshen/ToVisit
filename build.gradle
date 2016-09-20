@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 ext {
     configuration = [
-            package          : "com.jenshen.tovosit",
+            package          : "com.jenshen.tovisit",
             buildToolsVersion: "24.0.0",
             compileSdkVersion: 24,
             minSdkVersion    : 14,
